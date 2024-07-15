@@ -59,7 +59,7 @@ const Tendances: React.FC = () => {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="ml-8 mx-auto p-6">
         <div className="flex items-center justify-between space-y-2 mb-10">
-          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+          <h2 className="text-3xl font-bold tracking-tight">Weather trendy</h2>
         </div>
 
         <DepartmentList onDepartmentsLoaded={setDepartments} />

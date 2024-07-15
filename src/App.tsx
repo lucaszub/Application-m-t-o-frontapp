@@ -5,6 +5,7 @@ import { ModeToggle } from './components/ModeToggle';
 import { Route, Routes } from 'react-router-dom';
 import { Auth } from './components/Auth';
 import Tendances from './pages/Tendances';
+import {StationMeteo} from './pages/StationMeteo';
 
 function App() {
   return (
@@ -30,8 +31,8 @@ function App() {
             <Route path="/Tendances" element={<Tendances />} />
             
             {/* Ajoutez d'autres routes ici */}
-            <Route path="/Les stations météorologiques" />
-            {/* <Route path="/Comparaison Climatique" element={<Meteo />} /> */}
+            <Route path="/Les stations météorologiques" element={<StationMeteo />} />
+            <Route path="/Comparaison Climatique" element={<StationMeteo />} />
           </Routes>
         </div>
       </div>

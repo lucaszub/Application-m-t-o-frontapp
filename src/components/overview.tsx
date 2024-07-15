@@ -1,15 +1,28 @@
 "use client"
 
 import React from 'react';
-import { Bar, Legend, Tooltip, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Bar, Legend, Tooltip, BarChart, XAxis, YAxis } from 'recharts';
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
 
 interface OverviewProps {
   data: { year: number; precipitations: number }[];
 }
 
+const chartConfig = {
+  precipitations: {
+    label: "Precipitations",
+    color: "hsl(var(--chart-1))",
+  },
+} satisfies ChartConfig
+
 export const Overview: React.FC<OverviewProps> = ({ data }) => {
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
       <BarChart data={data}>
         <XAxis
           dataKey="year"
@@ -25,15 +38,14 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
           axisLine={false}
           tickFormatter={(value) => `${value}mm`}
         />
-        <Tooltip />
+        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         <Legend />
         <Bar
           dataKey="precipitations"
-          fill="currentColor"
+          fill={chartConfig.precipitations.color}
           radius={[4, 4, 0, 0]}
-          className="fill-primary"
         />
       </BarChart>
-    </ResponsiveContainer>
+    </ChartContainer>
   );
 };
