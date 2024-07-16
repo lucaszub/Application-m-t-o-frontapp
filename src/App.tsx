@@ -13,7 +13,7 @@ function App() {
       <div className="app">
         <div className=" hidden flex-col md:flex relative ">
           <div className="border-b">
-            <div className=" flex h-16 items-center px-4 gap-2 ml-8 justify-between">
+            <div className="flex h-16 items-center px-4 gap-2 ml-8 justify-between">
               <div className="flex items-center">
                 <Logo />
                 <Navbar />
