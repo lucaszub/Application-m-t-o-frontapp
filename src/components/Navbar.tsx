@@ -23,7 +23,7 @@ export function Navbar({
       <div className="flex items-center space-x-4 lg:space-x-6 gap-12">
         {/* <Logo /> */}
         <Link
-          to="/Tendances"
+          to="/"
           className="text-sm font-medium transition-colors hover:text-primary"
         >
           Visualiser les tendances
@@ -35,16 +35,16 @@ export function Navbar({
           Les stations météorologiques 
         </Link>
         <Link
-          to="/Comparaison Climatique"
+          to="/SignUp"
           className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
         >
-          Comparaison Climatique
+          Sign Up
         </Link>
         <Link
-          to="/examples/dashboard"
+          to="/SignIn"
           className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
         >
-          Le projet
+          Sign In
         </Link>
 
       </div>

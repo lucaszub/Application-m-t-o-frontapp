@@ -10,6 +10,16 @@ export const API_ROUTES = {
     getAllRegions: `${BASE_URL}/regions/regions/`,
     // Ajoutez d'autres routes ici si nécessaire
   },
+  actualWeather: {
+
+    getActualWeather: (city:string) => {
+    
+      let urweather = `${BASE_URL}/current_time/?city=${city}`;
+
+      return urweather;
+
+    }
+  },
 
   temperatureData: {
     getTemperatureData: (start_date: string, end_date: string, region?: string, department?: string) => {
@@ -26,5 +36,8 @@ export const API_ROUTES = {
       return url;
     }
   },
+
+ 
+  
   // Ajoutez d'autres groupes de routes ici
 };

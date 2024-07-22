@@ -6,7 +6,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Auth } from './components/Auth';
 import Tendances from './pages/Tendances';
 import {StationMeteo} from './pages/StationMeteo';
-
+import { LoginForm } from './pages/SignUp'
+import { SignIn } from './pages/SignIn'
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -28,11 +29,10 @@ function App() {
         <div className="ml-8 mx-auto p-6">
           <Routes>
             {/* Route pour la page Tendances */}
-            <Route path="/Tendances" element={<Tendances />} />
-            
-            {/* Ajoutez d'autres routes ici */}
+            <Route path="/" element={<Tendances />} />
             <Route path="/Les stations météorologiques" element={<StationMeteo />} />
-            <Route path="/Comparaison Climatique" element={<StationMeteo />} />
+            <Route path="/SignUp" element={<LoginForm />} />
+            <Route path="/SignIn" element={<SignIn />} />
           </Routes>
         </div>
       </div>
@@ -41,3 +41,6 @@ function App() {
 }
 
 export default App;
+
+
+
