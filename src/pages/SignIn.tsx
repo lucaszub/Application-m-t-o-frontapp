@@ -1,3 +1,5 @@
+// components/SignIn.tsx
+import React, { useState, FormEvent } from 'react';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import {
@@ -10,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
-import React, { useState, FormEvent } from 'react';
 
 export function SignIn() {
   const [username, setUsername] = useState<string>('');
@@ -46,13 +47,12 @@ export function SignIn() {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: formDetails,
+        credentials: 'include', // Important pour inclure les cookies dans la requête
       });
 
       setLoading(false);
 
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.access_token);
         setSuccess('You have successfully logged in.');
         setTimeout(() => {
           navigate('/');

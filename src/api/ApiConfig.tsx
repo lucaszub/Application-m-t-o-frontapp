@@ -21,6 +21,14 @@ export const API_ROUTES = {
     }
   },
 
+  forecast: {
+    getForecastWeather : (city:String) => {
+      let forecastweather = `${BASE_URL}/prediction/?city=${city}`
+
+      return forecastweather
+    }
+  },
+  
   temperatureData: {
     getTemperatureData: (start_date: string, end_date: string, region?: string, department?: string) => {
       let url = `${BASE_URL}/temperature_stats/temperature_stats/?start_date_str=${start_date}&end_date_str=${end_date}`;

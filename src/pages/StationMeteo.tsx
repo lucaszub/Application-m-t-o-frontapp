@@ -13,7 +13,10 @@ import { Label } from "@/components/ui/label";
 import { CloudSun, CloudRainWind, CloudSunRain, Sun, Cloud, Wind, BriefcaseBusiness, MapPin, Droplet, Moon   } from "lucide-react";
 import  { MyComponent }  from "../api/actualweather";
 import React, { useState } from 'react';
-import {MeteoActuel} from "../components/meteoComponents/MeteoActuel"
+import {Humidity, MeteoActuel, Pressure, Visibility, FeelLike}  from "../components/meteoComponents/MeteoActuel"
+import {SunRiseSunSet}  from "../components/meteoComponents/MeteoActuel"
+
+import {WeatherForecast} from "../components/meteoComponents/WeatherForecast"
 
 export const StationMeteo = () => {
   const [city, setCity] = useState<string>('Nantes'); // État local pour stocker la valeur de la ville
@@ -111,152 +114,25 @@ export const StationMeteo = () => {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="col-span-1 ml-5">
-                <CardContent className="flex justify-between mx-3 mt-3">
-                  <CardDescription>Sunrise & Sunset</CardDescription>
-                </CardContent>
-                <CardContent className="flex flex-row justify-between w-full gap-10 ">
-                  <div className="flex flex-col items-center w-1/2">
-                    <p className="text-xs text-muted-foreground mb-2 text-center">Sunrise</p>
-                    <div className="flex flex-row items-center justify-center gap-2 w-full">
-                      <Sun size={48} className="mr-4" />
-                      <div className="text-2xl font-bold">6:46 AM</div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-center w-1/2">
-                    <p className="text-xs text-muted-foreground mb-2 text-center">Sunset</p>
-                    <div className="flex flex-row items-center justify-center gap-2 w-full">
-                      <Moon size={48} className="mr-4"/>
-                      <div className="text-2xl font-bold">8:46 PM</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
+              <SunRiseSunSet city={city} />
 
             </div>
             <div className="grid grid-cols-4 gap-3 ml-5 mr-5 mt-6 mb-5">
-              <Card className="col-span-1">
-                <p className="text-ms text-muted-foreground ml-4 mt-2">Humidity</p>
-                <div className="flex flex-row items-center justify-between ml-4 mr-4 mt-3">
-                  <Droplet /> 
-                  <div className="text-2xl font-bold">34 %</div>
-                </div>
-              </Card>
-              <Card className="col-span-1">
-                <p className="text-ms text-muted-foreground ml-4 mt-2">Humidity</p>
-                <div className="flex flex-row items-center justify-between ml-4 mr-4 mt-4">
-                  <Droplet /> 
-                  <div className="text-2xl font-bold">34 %</div>
-                </div>
-              </Card>
-              <Card className="col-span-1">
-                <p className="text-ms text-muted-foreground ml-4 mt-2">Humidity</p>
-                <div className="flex flex-row items-center justify-between ml-4 mr-4 mt-4">
-                  <Droplet /> 
-                  <div className="text-2xl font-bold">34 %</div>
-                </div>
-              </Card>
-              <Card className="col-span-1">
-                <p className="text-ms text-muted-foreground ml-4 mt-2">Humidity</p>
-                <div className="flex flex-row items-center justify-between ml-4 mr-4 mt-4">
-                  <Droplet /> 
-                  <div className="text-2xl font-bold">34 %</div>
-                </div>
-              </Card>
+            <Humidity city={city} />
+            <Pressure city={city} />
+            <Visibility city={city} />
+            <FeelLike city={city} />
             </div>
           </Card>
           <Card>
             
-            <CardHeader>
-              <CardTitle>Today at</CardTitle>   
-            </CardHeader>
-            <div className="grid grid-cols-8 gap-2 w-full ml-1 mr-4 mb-6">
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-            </div>
-            <div className="grid grid-cols-8 gap-2 w-full ml-1 mr-4 mb-3">
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-              <Card className="flex flex-col items-center justify-center p-4">
-                <p className="text-ms text-muted-foreground">9 AM</p>
-                <Cloud size={48} />
-                <p className="text-ms text-muted-foreground">5°</p>
-              </Card>
-            </div>
+        
+          <WeatherForecast city={city} />
           </Card>
           <MyComponent city={city} />
+          <WeatherForecast city={city} />
+          <Humidity city={city} />
+
         </div>
       </div>
     </>
