@@ -1,17 +1,11 @@
-import MapComponent from "../components/MapComponent";
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
+  
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { CloudSun, CloudRainWind, CloudSunRain, Sun, Cloud, Wind, BriefcaseBusiness, MapPin, Droplet, Moon   } from "lucide-react";
-import  { MyComponent }  from "../api/actualweather";
 import React, { useState } from 'react';
 import {Humidity, MeteoActuel, Pressure, Visibility, FeelLike}  from "../components/meteoComponents/MeteoActuel"
 import {SunRiseSunSet}  from "../components/meteoComponents/MeteoActuel"
