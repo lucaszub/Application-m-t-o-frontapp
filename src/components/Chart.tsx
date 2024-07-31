@@ -1,6 +1,6 @@
 "use client"
 
-import { LineChart, Line, Legend, Tooltip, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { LineChart, Line, Legend, XAxis, YAxis } from "recharts";
 import {
   ChartConfig,
   ChartContainer,

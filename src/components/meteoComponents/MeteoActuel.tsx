@@ -2,7 +2,6 @@ import React from 'react';
 import useSWR from 'swr';
 import { API_ROUTES } from '../../api/ApiConfig';
 import { ThermometerSun, Eye, BriefcaseBusiness, Droplet, Wind, MapPin, Moon, Sun } from 'lucide-react';
-
 import {
     Card,
     CardContent,
@@ -12,6 +11,7 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 
+// Fetcher function to handle API requests
 const fetcher = (url: string) =>
     fetch(url).then(res => {
         if (!res.ok) {
@@ -24,18 +24,21 @@ interface MyComponentProps {
     city: string;
 }
 
+// Function to format time from timestamp
 const formatTime = (timestamp: string) => {
-    const [date, time] = timestamp.split(' ');
+    const [, time] = timestamp.split(' ');
     if (!time) return 'N/A';
     const [hours, minutes] = time.split(':');
     return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
 };
 
+// Function to extract date from datetime string
 const extractDate = (datetime: string) => {
     const [datePart] = datetime.split(' ');
     return datePart;
 };
 
+// Component to display current weather
 export const MeteoActuel: React.FC<MyComponentProps> = ({ city }) => {
     const apiUrl = API_ROUTES.actualWeather.getActualWeather(city);
     const { data, error } = useSWR(apiUrl, fetcher);
@@ -65,20 +68,7 @@ export const MeteoActuel: React.FC<MyComponentProps> = ({ city }) => {
             </CardHeader>
             <CardContent className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="text-4xl font-bold">{temp}°C</div>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-12"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                    />
-                </svg>
+                <ThermometerSun size={48} />
             </CardContent>
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-sm font-medium">{description}</CardTitle>
@@ -96,6 +86,7 @@ export const MeteoActuel: React.FC<MyComponentProps> = ({ city }) => {
     );
 };
 
+// Component to display sunrise and sunset times
 export const SunRiseSunSet: React.FC<MyComponentProps> = ({ city }) => {
     const apiUrl = API_ROUTES.actualWeather.getActualWeather(city);
     const { data, error } = useSWR(apiUrl, fetcher);
@@ -137,14 +128,11 @@ export const SunRiseSunSet: React.FC<MyComponentProps> = ({ city }) => {
     );
 };
 
-
-
-
+// Component to display humidity
 export const Humidity: React.FC<MyComponentProps> = ({ city }) => {
     const apiUrl = API_ROUTES.actualWeather.getActualWeather(city);
     const { data, error } = useSWR(apiUrl, fetcher);
 
-   
     if (error) return <div>Erreur de chargement des données : {error.message}</div>;
     if (!data) return <div>Chargement...</div>;
 
@@ -154,31 +142,29 @@ export const Humidity: React.FC<MyComponentProps> = ({ city }) => {
         return <div>Données météo non disponibles pour {city}</div>;
     }
 
-    const { main, weather: weatherDetails, sys, name } = weather || {};
+    const { main } = weather || {};
     if (!main) {
         return <div>Données principales non disponibles pour {city}</div>;
     }
 
-    const { humidity} = main;
-
-
+    const { humidity } = main;
 
     return (
         <Card className="col-span-1">
             <p className="text-ms text-muted-foreground ml-4 mt-2">Humidity</p>
             <div className="flex flex-row items-center justify-between ml-4 mr-4 mt-3">
-                <Droplet /> 
+                <Droplet />
                 <div className="text-2xl font-bold">{humidity} %</div>
             </div>
         </Card>
     );
 };
 
+// Component to display pressure
 export const Pressure: React.FC<MyComponentProps> = ({ city }) => {
     const apiUrl = API_ROUTES.actualWeather.getActualWeather(city);
     const { data, error } = useSWR(apiUrl, fetcher);
 
-   
     if (error) return <div>Erreur de chargement des données : {error.message}</div>;
     if (!data) return <div>Chargement...</div>;
 
@@ -188,33 +174,29 @@ export const Pressure: React.FC<MyComponentProps> = ({ city }) => {
         return <div>Données météo non disponibles pour {city}</div>;
     }
 
-    const { main, weather: weatherDetails, sys, name } = weather || {};
+    const { main } = weather || {};
     if (!main) {
         return <div>Données principales non disponibles pour {city}</div>;
     }
 
-    const { pressure} = main;
-
-
+    const { pressure } = main;
 
     return (
         <Card className="col-span-1">
             <p className="text-ms text-muted-foreground ml-4 mt-2">Pressure</p>
             <div className="flex flex-row items-center justify-between ml-4 mr-4 mt-3">
                 <Wind />
-                <div className="text-2xl font-bold">{pressure}hPa</div>
+                <div className="text-2xl font-bold">{pressure} hPa</div>
             </div>
         </Card>
     );
 };
 
-
-
+// Component to display visibility
 export const Visibility: React.FC<MyComponentProps> = ({ city }) => {
     const apiUrl = API_ROUTES.actualWeather.getActualWeather(city);
     const { data, error } = useSWR(apiUrl, fetcher);
 
-   
     if (error) return <div>Erreur de chargement des données : {error.message}</div>;
     if (!data) return <div>Chargement...</div>;
 
@@ -224,30 +206,24 @@ export const Visibility: React.FC<MyComponentProps> = ({ city }) => {
         return <div>Données météo non disponibles pour {city}</div>;
     }
 
-    const { visibility, main, weather: weatherDetails, sys, name } = weather || {};
-    if (!main) {
-        return <div>Données principales non disponibles pour {city}</div>;
-    }
-
-
-
+    const { visibility } = weather || {};
 
     return (
         <Card className="col-span-1">
             <p className="text-ms text-muted-foreground ml-4 mt-2">Visibility</p>
             <div className="flex flex-row items-center justify-between ml-4 mr-4 mt-3">
-                <Eye  />
-                <div className="text-2xl font-bold">{visibility}m</div>
+                <Eye />
+                <div className="text-2xl font-bold">{visibility} m</div>
             </div>
         </Card>
     );
 };
 
+// Component to display "feels like" temperature
 export const FeelLike: React.FC<MyComponentProps> = ({ city }) => {
     const apiUrl = API_ROUTES.actualWeather.getActualWeather(city);
     const { data, error } = useSWR(apiUrl, fetcher);
 
-   
     if (error) return <div>Erreur de chargement des données : {error.message}</div>;
     if (!data) return <div>Chargement...</div>;
 
@@ -257,23 +233,20 @@ export const FeelLike: React.FC<MyComponentProps> = ({ city }) => {
         return <div>Données météo non disponibles pour {city}</div>;
     }
 
-    const { main, weather: weatherDetails, sys, name } = weather || {};
+    const { main } = weather || {};
     if (!main) {
         return <div>Données principales non disponibles pour {city}</div>;
     }
 
-    const { feels_like} = main;
-
-
+    const { feels_like } = main;
 
     return (
         <Card className="col-span-1">
             <p className="text-ms text-muted-foreground ml-4 mt-2">Température Ressentie</p>
             <div className="flex flex-row items-center justify-between ml-4 mr-4 mt-3">
-                <ThermometerSun  />
+                <ThermometerSun />
                 <div className="text-2xl font-bold">{feels_like}°C</div>
             </div>
         </Card>
     );
 };
-

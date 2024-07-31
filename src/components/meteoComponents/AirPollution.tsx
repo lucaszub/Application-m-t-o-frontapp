@@ -7,10 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import {
     Card,
     CardContent,
-    CardFooter,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+    CardDescription
 } from '@/components/ui/card';
 
 const fetcher = (url: string) =>

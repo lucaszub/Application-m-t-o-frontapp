@@ -1,6 +1,5 @@
 "use client"
 import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarShortcut, MenubarSeparator } from "@/components/ui/menubar"
-import * as React from "react"
 
 export function Auth() {
   return (

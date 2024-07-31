@@ -13,7 +13,7 @@ interface DatePickerProps {
   initialDate?: Date;
 }
 
-export function DatePicker({ label, onDateChange, initialDate }: DatePickerProps) {
+export function DatePicker({ onDateChange, initialDate }: DatePickerProps) {
   const formatDate = (date: Date | undefined): string => {
     return date ? format(date, 'yyyy/MM/dd') : '';
   };
