@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 
 export function LoginForm() {
   const [username, setUsername] = useState<string>('');

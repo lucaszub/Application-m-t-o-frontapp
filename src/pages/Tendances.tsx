@@ -1,9 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ThemeProvider } from "@/components/theme-provider";
-import MapComponent from '../components/MapComponent';
 import { Overview } from '../components/overview';
-import { Station } from '../components/station';
 import { Stat } from '../components/stat';
 import Selector from '../components/Selector';
 import DepartmentList from '../api/DepartementList';
