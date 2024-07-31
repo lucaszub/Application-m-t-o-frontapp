@@ -26,7 +26,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="ml-8 mx-auto p-6">
+        <div className="ml-8 ">
           <Routes>
             {/* Route pour la page Tendances */}
             <Route path="/" element={<Tendances />} />

@@ -57,6 +57,7 @@ const getIcon = (temp: number | undefined) => {
   return Cloud;
 };
 
+
 export const WeatherForecast: React.FC<MyComponentProps> = ({ city }) => {
   const apiUrl = API_ROUTES.forecast.getForecastWeather(city);
   const { data, error } = useSWR<WeatherResponse>(apiUrl, fetcher);
@@ -111,3 +112,4 @@ export const WeatherForecast: React.FC<MyComponentProps> = ({ city }) => {
     </div>
   );
 };
+

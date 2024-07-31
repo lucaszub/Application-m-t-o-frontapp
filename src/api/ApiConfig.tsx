@@ -28,6 +28,13 @@ export const API_ROUTES = {
       return forecastweather
     }
   },
+  airpollution: {
+    getAirPollution: (city:string) => {
+      let pollution = `${BASE_URL}/airpollution/?city=${city}`
+
+      return pollution
+    }
+  },
   
   temperatureData: {
     getTemperatureData: (start_date: string, end_date: string, region?: string, department?: string) => {

@@ -138,6 +138,8 @@ export const SunRiseSunSet: React.FC<MyComponentProps> = ({ city }) => {
 };
 
 
+
+
 export const Humidity: React.FC<MyComponentProps> = ({ city }) => {
     const apiUrl = API_ROUTES.actualWeather.getActualWeather(city);
     const { data, error } = useSWR(apiUrl, fetcher);
@@ -205,6 +207,7 @@ export const Pressure: React.FC<MyComponentProps> = ({ city }) => {
         </Card>
     );
 };
+
 
 
 export const Visibility: React.FC<MyComponentProps> = ({ city }) => {
