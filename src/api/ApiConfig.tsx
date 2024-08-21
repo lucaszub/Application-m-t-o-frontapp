@@ -1,5 +1,4 @@
 const BASE_URL = "http://127.0.0.1:8000"; // Première partie de l'URL
-
 export const API_ROUTES = {
   departments: {
     getAllDepartments: `${BASE_URL}/departments/departements/`,
