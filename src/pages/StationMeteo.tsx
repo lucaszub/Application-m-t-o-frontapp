@@ -29,16 +29,14 @@ export const StationMeteo = () => {
         <Input id="city" onChange={handleInputChange} value={city} />
       </div>
 
-      <div className="hidden items-start justify-center gap-2 rounded-lg p-8 md:grid lg:grid-cols-4 xl:grid-cols-4 ">
-        {/* Première colonne */}
-        <div className="col-span-1 grid items-start gap-12">
-          <MeteoActuel city={city}/>
-          <WeatherForecast5day city={city} />
-        </div>
+      <div className="grid grid-rows-1 grid-cols-5 gap-4 ml-8 p-6">
 
-        {/* Deuxième colonne */}
-        <div className="col-span-3 grid items-start gap-2">
-          <Card>
+          <div className="row-start-1 row-end-2 col-start-1 col-end-2">
+            <MeteoActuel city={city}/>
+          </div>
+
+          
+          <Card className="row-start-1 row-end-1 col-start-2 col-end-6">
             <CardHeader>
               <CardTitle className="text-xl">Meteo aujourd'hui</CardTitle>
             </CardHeader>
@@ -54,13 +52,22 @@ export const StationMeteo = () => {
             <FeelLike city={city} />
             </div>
           </Card>
-          <Card>
+         
+         
+         
+          <div className="row-start-2 row-end-6 col-start-1 col-end-2">
+            <WeatherForecast5day city={city} />
+          </div>
+   
+          
+          
+          <Card className="row-start-2 row-end-3 col-start-2 col-end-6">
             
         
-          <WeatherForecast city={city} />
+            <WeatherForecast city={city} />
           </Card>
         </div>
-      </div>
+      
     </>
   );
 };

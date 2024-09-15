@@ -1,7 +1,7 @@
 import React from 'react';
 import useSWR from 'swr';
 import { API_ROUTES } from '../../api/ApiConfig';
-import { Cloud, Sun } from "lucide-react";
+import { Cloud, Sun, CloudRain, CloudSnow, CloudDrizzle, CloudLightning } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -9,6 +9,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
+// Fetcher function for SWR
 const fetcher = (url: string) =>
   fetch(url).then(res => {
     if (!res.ok) {
@@ -17,8 +18,17 @@ const fetcher = (url: string) =>
     return res.json();
   });
 
+// Props for the component
 interface MyComponentProps {
   city: string;
+}
+
+// Weather data interfaces
+interface Weather {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
 }
 
 interface WeatherMain {
@@ -27,6 +37,7 @@ interface WeatherMain {
 
 interface WeatherForecastItem {
   main?: WeatherMain;
+  weather?: Weather[];
   dt_txt?: string;
 }
 
@@ -38,6 +49,7 @@ interface WeatherResponse {
   'prediction meteo': PredictionMeteo;
 }
 
+// Function to format date
 const formatDate = (dateString: string | undefined) => {
   if (!dateString) return { day: '', dateNumber: 0, month: '' };
   const date = new Date(dateString);
@@ -50,39 +62,56 @@ const formatDate = (dateString: string | undefined) => {
   return { day, dateNumber, month };
 };
 
-const getIcon = (temp: number | undefined) => {
-  if (temp === undefined) return Cloud;
-  if (temp < 0) return Cloud;
-  if (temp < 15) return Cloud;
-  if (temp >= 15) return Sun;
-  return Cloud;
+// Function to get the icon based on weather ID
+const getIcon = (weatherId: number) => {
+  if (weatherId >= 200 && weatherId < 300) return CloudLightning; // Thunderstorm
+  if (weatherId >= 300 && weatherId < 500) return CloudDrizzle;   // Drizzle
+  if (weatherId >= 500 && weatherId < 600) return CloudRain;      // Rain
+  if (weatherId >= 600 && weatherId < 700) return CloudSnow;      // Snow
+  if (weatherId === 800) return Sun;                              // Clear sky
+  if (weatherId >= 801 && weatherId < 900) return Cloud;          // Cloudy
+
+  return Cloud; // Default icon for unknown conditions
 };
 
+// Function to calculate daily averages
 const calculateDailyAverages = (forecastList: WeatherForecastItem[]) => {
-  const dayTemperatures: { [key: string]: number[] } = {};
+  const dayTemperatures: { [key: string]: { temps: number[], weatherIds: number[] } } = {};
 
   forecastList.forEach(forecast => {
-    const { dt_txt, main } = forecast;
+    const { dt_txt, main, weather } = forecast;
     const date = new Date(dt_txt || '');
-    const dayKey = date.toISOString().split('T')[0]; // Utilise la date au format YYYY-MM-DD comme clé
+    const dayKey = date.toISOString().split('T')[0]; // Use YYYY-MM-DD format as key
 
     if (main?.temp !== undefined) {
       if (!dayTemperatures[dayKey]) {
-        dayTemperatures[dayKey] = [];
+        dayTemperatures[dayKey] = { temps: [], weatherIds: [] };
       }
-      dayTemperatures[dayKey].push(main.temp);
+      dayTemperatures[dayKey].temps.push(main.temp);
+      if (weather && weather.length > 0) {
+        dayTemperatures[dayKey].weatherIds.push(weather[0].id); // Store weather ID
+      }
     }
   });
 
-  const dailyAverages = Object.entries(dayTemperatures).map(([dayKey, temps]) => {
-    const averageTemp = temps.reduce((sum, temp) => sum + temp, 0) / temps.length;
+  const dailyAverages = Object.entries(dayTemperatures).map(([dayKey, data]) => {
+    const averageTemp = data.temps.reduce((sum, temp) => sum + temp, 0) / data.temps.length;
+
+    // Handle the case where weatherIds might be empty
+    const mostFrequentWeatherId = data.weatherIds.length > 0
+      ? data.weatherIds.sort((a, b) =>
+        data.weatherIds.filter(id => id === a).length - data.weatherIds.filter(id => id === b).length
+      ).pop() || 0 // Provide a default value of 0 if no weather ID is found
+      : 0; // Default value if no weather ID is present
+
     const { day, dateNumber, month } = formatDate(dayKey);
-    return { day, dateNumber, month, averageTemp };
+    return { day, dateNumber, month, averageTemp, mostFrequentWeatherId };
   });
 
   return dailyAverages;
 };
 
+// Main component
 export const WeatherForecast5day: React.FC<MyComponentProps> = ({ city }) => {
   const apiUrl = API_ROUTES.forecast.getForecastWeather(city);
   const { data, error } = useSWR<WeatherResponse>(apiUrl, fetcher);
@@ -102,7 +131,7 @@ export const WeatherForecast5day: React.FC<MyComponentProps> = ({ city }) => {
     return <div>Aucune prévision disponible pour {city}</div>;
   }
 
-  // Nous limitons la liste à 40 éléments pour couvrir plusieurs jours
+  // Limit the list to 40 elements to cover several days
   const forecasts = list.slice(0, 40);
   const dailyAverages = calculateDailyAverages(forecasts);
 
@@ -112,7 +141,9 @@ export const WeatherForecast5day: React.FC<MyComponentProps> = ({ city }) => {
         <CardTitle className="text-xl font-medium mb-5">Prévisions sur 5 jours</CardTitle>
       </CardHeader>
       {dailyAverages.map((item, index) => {
-        const Icon = getIcon(item.averageTemp);
+        // Use the most frequent weather ID for the day
+        const Icon = getIcon(item.mostFrequentWeatherId);
+
         return (
           <CardContent key={index} className="flex flex-row items-center justify-between">
             <div className="text-2xl font-bold flex flex-row items-center gap-4">

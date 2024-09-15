@@ -1,7 +1,7 @@
 import React from 'react';
 import useSWR from 'swr';
 import { API_ROUTES } from '../../api/ApiConfig';
-import { Cloud, Sun } from "lucide-react";
+import { Cloud, Sun, CloudRain, CloudSnow, CloudDrizzle, CloudLightning } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -21,13 +21,20 @@ interface MyComponentProps {
   city: string;
 }
 
-// Typage simplifié des données de l'API
 interface WeatherMain {
   temp?: number;
 }
 
+interface WeatherCondition {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
+}
+
 interface WeatherForecastItem {
   main?: WeatherMain;
+  weather?: WeatherCondition[];
   dt_txt?: string;
 }
 
@@ -49,14 +56,24 @@ const formatDate = (dateString: string | undefined) => {
   return `${day} ${hours}h${minutes}`;
 };
 
-const getIcon = (temp: number | undefined) => {
-  if (temp === undefined) return Cloud;
-  if (temp < 0) return Cloud;
-  if (temp < 15) return Cloud;
-  if (temp >= 15) return Sun;
-  return Cloud;
+const getIcon = (weatherId: number, description: string) => {
+  if (weatherId >= 200 && weatherId < 300) return CloudLightning; // Orage
+  if (weatherId >= 300 && weatherId < 500) return CloudDrizzle; // Bruine
+  if (weatherId >= 500 && weatherId < 600) return CloudRain; // Pluie
+  if (weatherId >= 600 && weatherId < 700) return CloudSnow; // Neige
+  if (weatherId === 800) {
+    if (description.includes("partly cloudy") || description.includes("few clouds")) {
+      return Cloud; // Quelques nuages dans un ciel dégagé
+    }
+    return Sun; // Ciel dégagé
+  }
+  if (weatherId >= 801 && weatherId < 900) {
+    if (description.includes("partly cloudy") || description.includes("mostly cloudy")) {
+      return Cloud; // Nuages partiels ou principalement nuageux
+    }
+  }
+  return Cloud; // Icône par défaut pour des conditions inconnues
 };
-
 
 export const WeatherForecast: React.FC<MyComponentProps> = ({ city }) => {
   const apiUrl = API_ROUTES.forecast.getForecastWeather(city);
@@ -88,10 +105,11 @@ export const WeatherForecast: React.FC<MyComponentProps> = ({ city }) => {
         </CardHeader>
         <div className="grid grid-cols-8 gap-2 w-full ml-1 mr-4 mb-6">
           {forecasts.map((forecast: WeatherForecastItem, index: number) => {
-            const { main, dt_txt } = forecast;
+            const { main, weather, dt_txt } = forecast;
             const { temp } = main || {};
+            const description = weather ? weather[0].description : '';
             const formattedDate = formatDate(dt_txt);
-            const Icon = getIcon(temp);
+            const Icon = getIcon(weather ? weather[0].id : 0, description);
 
             return (
               <Card key={index} className='flex flex-col items-center justify-center p-2'>
@@ -112,4 +130,3 @@ export const WeatherForecast: React.FC<MyComponentProps> = ({ city }) => {
     </div>
   );
 };
-
