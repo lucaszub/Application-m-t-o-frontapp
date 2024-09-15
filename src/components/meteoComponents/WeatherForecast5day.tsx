@@ -136,29 +136,33 @@ export const WeatherForecast5day: React.FC<MyComponentProps> = ({ city }) => {
   const dailyAverages = calculateDailyAverages(forecasts);
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-xl font-medium mb-5">Prévisions sur 5 jours</CardTitle>
       </CardHeader>
-      {dailyAverages.map((item, index) => {
-        // Use the most frequent weather ID for the day
-        const Icon = getIcon(item.mostFrequentWeatherId);
+      <CardContent className="overflow-auto">
+        {dailyAverages.map((item, index) => {
+          // Use the most frequent weather ID for the day
+          const Icon = getIcon(item.mostFrequentWeatherId);
 
-        return (
-          <CardContent key={index} className="flex flex-row items-center justify-between">
-            <div className="text-2xl font-bold flex flex-row items-center gap-4">
-              <Icon size={48} />
-              {item.averageTemp !== undefined ? `${item.averageTemp.toFixed(0)}°C` : 'Données non disponibles'}
+          return (
+            <div key={index} className="flex flex-col sm:flex-row items-center justify-between p-4 border-b last:border-b-0">
+              <div className="flex flex-row items-center gap-4 mb-2 sm:mb-0">
+                <Icon size={48} />
+                <span className="text-2xl font-bold">
+                  {item.averageTemp !== undefined ? `${item.averageTemp.toFixed(0)}°C` : 'Données non disponibles'}
+                </span>
+              </div>
+              <div className="text-sm text-muted-foreground gap-3">
+                <p>{item.day} {item.dateNumber}</p>
+                <p>{item.month}</p>
+              </div>
             </div>
-            <p className="text-ms text-muted-foreground">
-              {item.day} {item.dateNumber}
-            </p>
-            <p className="text-ms text-muted-foreground">
-              {item.month}
-            </p>
-          </CardContent>
-        );
-      })}
+          );
+        })}
+      </CardContent>
     </Card>
   );
 };
+
+export default WeatherForecast5day;
